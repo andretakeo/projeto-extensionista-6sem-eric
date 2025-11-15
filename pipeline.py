@@ -285,18 +285,18 @@ def run_pipeline(raw_path: Path = RAW_WORKBOOK) -> PipelineArtifacts:
 
     print("▶️ Limpando e padronizando valores...")
     clean_df = clean_dataset(long_df)
-    clean_path = Path("eric-dados-compilados-LIMPO.csv")
+    clean_path = Path("cleaned_records.csv")
     clean_df.to_csv(clean_path, index=False)
 
     print("▶️ Calculando scores...")
     scores_df = calculate_scores(clean_df)
-    scores_path = Path("eric-dados-engajamento.csv")
+    scores_path = Path("engagement_scores.csv")
     scores_df.to_csv(scores_path, index=False)
 
     print("▶️ Executando clustering...")
     clusters_df, profile_df = run_clustering(scores_df)
-    clusters_path = Path("clusters_alunos.csv")
-    profiles_path = Path("perfil_clusters.csv")
+    clusters_path = Path("student_clusters.csv")
+    profiles_path = Path("cluster_profiles.csv")
     clusters_df.to_csv(clusters_path, index=False)
     profile_df.to_csv(profiles_path, index=False)
 
