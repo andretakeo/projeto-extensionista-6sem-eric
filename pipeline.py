@@ -198,6 +198,7 @@ def clean_dataset(long_df: pd.DataFrame) -> pd.DataFrame:
 
     df["aluno_id"] = df.apply(build_student_id, axis=1)
     df = df.drop_duplicates(subset=["aluno_id", "Aula"] + numeric_cols)
+    df = df[df["Aula"] <= 14]
     df = df.sort_values(["Unidade", "Sala", "Aluno", "Aula"]).reset_index(drop=True)
 
     desired_cols = [
