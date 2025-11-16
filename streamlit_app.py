@@ -200,17 +200,33 @@ streamlit run streamlit_app.py
 
         st.markdown("<div style='margin:28px 0;'></div>", unsafe_allow_html=True)
         st.markdown(
-            "<div style='font-size:18px;'>O heatmap abaixo detalha como o engajamento médio evolui por unidade/ aula. "
+            "<div style='font-size:18px;'>O heatmap abaixo detalha como o engajamento médio evolui por unidade/aula. "
             "Regiões em vermelho indicam necessidade de intervenção; verdes apontam salas com ótimo aproveitamento.</div>",
             unsafe_allow_html=True,
         )
+        import altair as alt
+
         heatmap_df = (
             scores_df.groupby(["Unidade", "Aula"])["engajamento"]
             .mean()
             .reset_index()
         )
-        heatmap_pivot = heatmap_df.pivot(index="Unidade", columns="Aula", values="engajamento")
-        st.dataframe(heatmap_pivot.style.background_gradient(cmap="RdYlGn", axis=1).format("{:.2f}"))
+        heatmap_chart = (
+            alt.Chart(heatmap_df)
+            .mark_rect()
+            .encode(
+                x=alt.X("Aula:O", title="Aula"),
+                y=alt.Y("Unidade:N", sort="ascending"),
+                color=alt.Color("engajamento:Q", scale=alt.Scale(scheme="redyellowgreen"), title="Engajamento"),
+                tooltip=[
+                    alt.Tooltip("Unidade:N"),
+                    alt.Tooltip("Aula:O"),
+                    alt.Tooltip("engajamento:Q", format=".2f"),
+                ],
+            )
+            .properties(height=300)
+        )
+        st.altair_chart(heatmap_chart, use_container_width=True)
 
         st.markdown("<div style='margin:28px 0;'></div>", unsafe_allow_html=True)
         st.markdown(
