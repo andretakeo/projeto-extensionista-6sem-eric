@@ -5,6 +5,7 @@ Este repositório centraliza o pipeline de limpeza, cálculo de engajamento e cl
 ## Estrutura do Projeto
 - `Base anonimizada - Eric - PUC-SP.xlsx`: insumo bruto com indicadores por aula (Pre-Class, Presença, Homework, Participação, Comportamento). **Não existe outra fonte: qualquer versão revisada precisa documentar a proveniência.**
 - `pipeline.py`: implementação profissionalizada do pipeline (reshape → limpeza → scores → clustering).
+- `streamlit_app.py`: painel Streamlit pronto para explorar os CSVs gerados.
 - `consolidado.ipynb`: notebook histórico que inspirou o script atual; serve como referência exploratória.
 - Saídas geradas automaticamente:
   - `cleaned_records.csv`: dados normalizados em formato long.
@@ -33,7 +34,19 @@ Este repositório centraliza o pipeline de limpeza, cálculo de engajamento e cl
    - **Carregamento e reshape:** lê o Excel, sincroniza datas («Aula 1», «Aula 2», …) e expande cada aula para uma linha individual.
    - **Limpeza:** extrai `Aluno`, `Sala`, `Unidade`, monta `aluno_id = Aluno::Sala::Unidade`, converte símbolos (√, +/-) em valores numéricos e normaliza datas PT-BR.
    - **Scores:** aplica pesos (30% preparação, 45% presença, 20% lição, 15% interação) e gera recomendações automáticas.
-   - **Clustering:** agrega médias por `aluno_id`, padroniza com `StandardScaler` e roda `KMeans` (até 4 clusters) salvando o perfil médio.
+- **Clustering:** agrega médias por `aluno_id`, padroniza com `StandardScaler` e roda `KMeans` (até 4 clusters) salvando o perfil médio.
+
+## Aplicação Streamlit
+1. Instale dependências adicionais (após criar o venv, se desejar):
+   ```bash
+   pip install streamlit altair
+   ```
+2. Garante que os CSVs existam executando `python pipeline.py`.
+3. Inicie o dashboard interativo:
+   ```bash
+   streamlit run streamlit_app.py
+   ```
+4. Use os filtros laterais para selecionar unidades e salas; o app exibe métricas agregadas, evolução por aula, distribuição de clusters, ranking de engajamento e amostras dos registros. Quaisquer alterações em `Base anonimizada - Eric - PUC-SP.xlsx` exigem rerun do pipeline antes de atualizar o painel.
 
 ## Boas Práticas de Dados
 - Considere **Aluno + Sala + Unidade** como chave primária; nomes como “Estudante 1” podem repetir em unidades diferentes.
