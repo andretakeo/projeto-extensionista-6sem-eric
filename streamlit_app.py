@@ -150,8 +150,8 @@ Perfis típicos:
         st.markdown("<div style='margin:18px 0;'></div>", unsafe_allow_html=True)
         st.markdown(
             """
-## 🤖 6. Relatórios, Dashboard e Evolução
-- Relatórios individuais e chatbots podem acessar os CSVs e funções auxiliares.
+-## 🤖 6. Relatórios, Dashboard e Evolução
+- Relatórios individuais podem acessar os CSVs e funções auxiliares.
 - Painel Streamlit possui abas para narrativa (esta), visão geral e análises por cluster.
 - Execução:
 ```bash
@@ -161,7 +161,7 @@ streamlit run streamlit_app.py
 
 ## 📤 7. Artefatos e Conclusão
 - `cleaned_records.csv`, `engagement_scores.csv`, `student_clusters.csv`, `cluster_profiles.csv`, `pipeline.py`, `streamlit_app.py`.
-- Transformamos o Excel heterogêneo em um pipeline robusto, com métricas de engajamento, clustering, visualizações e base pronta para APIs, chatbots e pesquisas.
+- Transformamos o Excel heterogêneo em um pipeline robusto, com métricas de engajamento, clustering e visualizações, pronto para relatórios ou estudos.
             """,
             unsafe_allow_html=True,
         )
