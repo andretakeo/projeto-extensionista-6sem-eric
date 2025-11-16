@@ -99,16 +99,23 @@ Este conteúdo resume todo o fluxo aplicado: coleta, limpeza, cálculo de engaja
         st.markdown(
             """
 ## 🧮 3. Métricas de Engajamento
-Pilares: Preparação, Presença, Lição e Interação (normalizada 0–1).
+- **Preparação (`prep_score`)**: deriva da coluna “Fez a atividade antes da aula”. Símbolo “√” vira 1; “N” ou vazio vira 0.
+- **Presença (`attendance_score`)**: mapeia P → 1, A/F → 0. Reforça que assiduidade é o fator mais pesado.
+- **Responsabilidade (`homework_score`)**: replica a coluna “Fez lição de casa”, com o mesmo mapeamento binário da preparação.
+- **Interação (`interaction_score`)**: converte emojis em escala 0–3 e divide por 3 para ficar entre 0 e 1.
 
+O índice ponderado consolida o comportamento por aula:
 ```
 engajamento = 0.30 * preparação
             + 0.45 * presença
             + 0.20 * lição_de_casa
             + 0.15 * interação
 ```
+- Maior peso para presença (45%), já que ausência impacta toda a experiência.
+- Preparação e lição somam 50% para estimular hábitos extraclasses.
+- Interação mantém peso menor (15%) para evitar enviesar os resultados por turmas mais expansivas.
 
-Saída `engagement_scores.csv` inclui `prep_score`, `attendance_score`, `homework_score`, `interaction_score`, `engajamento`, `engajamento_pct` e recomendações automáticas.
+O arquivo `engagement_scores.csv` traz esses pilares, o engajamento final, sua versão percentual (`engajamento_pct`) e a ação recomendada por aula.
             """,
             unsafe_allow_html=True,
         )
@@ -139,27 +146,13 @@ Perfis típicos:
 | 2 | Bom/instável (≈0.68) | Reforçar consistência |
 | 3 | Intermediário (≈0.50) | Trabalhar preparação / lição |
 
-### Narrativas
-- Cluster 1: intervenção imediata.
-- Cluster 2: monitoramento leve e metas curtas.
-- Cluster 0: reconhecimento.
-- Cluster 3: reforço de preparação.
             """,
             unsafe_allow_html=True,
         )
         st.markdown("<div style='margin:18px 0;'></div>", unsafe_allow_html=True)
         st.markdown(
             """
--## 🤖 6. Relatórios, Dashboard e Evolução
-- Relatórios individuais podem acessar os CSVs e funções auxiliares.
-- Painel Streamlit possui abas para narrativa (esta), visão geral e análises por cluster.
-- Execução:
-```bash
-python pipeline.py
-streamlit run streamlit_app.py
-```
-
-## 📤 7. Artefatos e Conclusão
+## 📤 6. Artefatos e Conclusão
 - `cleaned_records.csv`, `engagement_scores.csv`, `student_clusters.csv`, `cluster_profiles.csv`, `pipeline.py`, `streamlit_app.py`.
 - Transformamos o Excel heterogêneo em um pipeline robusto, com métricas de engajamento, clustering e visualizações, pronto para relatórios ou estudos.
             """,
